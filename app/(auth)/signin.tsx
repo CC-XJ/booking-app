@@ -1,4 +1,3 @@
-import { DataCollectionLevel, Dynatrace, UserPrivacyOptions } from "@dynatrace/react-native-plugin";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
@@ -25,8 +24,7 @@ export default function Login() {
   const router = useRouter();
 
   async function signIn() {
-
-    if (!email || !password){
+    if (!email || !password) {
       alert("Please enter both email and password");
       return;
     }
@@ -45,14 +43,7 @@ export default function Login() {
       return;
     }
 
-    if (data.session){
-
-      // Set privacy configuraiton fro Dynatrace User Behavior
-      const privacyConfig = new UserPrivacyOptions(DataCollectionLevel.UserBehavior, true);
-
-      Dynatrace.applyUserPrivacyOptions(privacyConfig);
-
-      Dynatrace.identifyUser(email);
+    if (data.session) {
       console.log("Login Successful");
       router.replace("/(tabs)");
     }
@@ -102,7 +93,12 @@ export default function Login() {
               </TouchableOpacity>
 
               <TouchableOpacity>
-                <Text onPress={() => router.push("/signup")} style={authStyles.linkText}>Don't have an account? Sign Up</Text>
+                <Text
+                  onPress={() => router.push("/signup")}
+                  style={authStyles.linkText}
+                >
+                  Don't have an account? Sign Up
+                </Text>
               </TouchableOpacity>
             </View>
           </ScrollView>

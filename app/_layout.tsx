@@ -4,21 +4,20 @@ import {
   DefaultTheme,
   ThemeProvider,
 } from "@react-navigation/native";
-import { Dynatrace } from '@dynatrace/react-native-plugin'
+import { StripeProvider } from "@stripe/stripe-react-native";
+import { Session } from "@supabase/supabase-js";
 import { useFonts } from "expo-font";
 import { Stack, useRouter, useSegments } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
 import "react-native-reanimated";
 import { supabase } from "../lib/supabase";
-import { Session } from "@supabase/supabase-js";
-import { StripeProvider } from "@stripe/stripe-react-native";
 
 import { useColorScheme } from "@/components/useColorScheme";
 
 export {
   // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
+  ErrorBoundary
 } from "expo-router";
 
 export const unstable_settings = {
@@ -69,7 +68,7 @@ function RootLayoutNav() {
     const { data: authListener } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         setSession(session);
-      }
+      },
     );
 
     return () => {
@@ -90,7 +89,9 @@ function RootLayoutNav() {
   }, [session, segments, isReady]);
 
   return (
-    <StripeProvider publishableKey={process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY!}>
+    <StripeProvider
+      publishableKey={process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY!}
+    >
       <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
         <Stack>
           <Stack.Screen name="(auth)" options={{ headerShown: false }} />
